@@ -38,7 +38,6 @@ const ManBnner = () => {
           <Image
             src="/images/capturing.svg"
             alt="Capturing"
-            layout="responsive"
             width={100}
             height={100}
             className="w-full md:w-auto scale-150"
@@ -95,7 +94,6 @@ const ManBnner = () => {
             <Image
               src="/images/decline.svg"
               alt="Capturing"
-              layout="responsive"
               width={100}
               height={100}
               className="w-full md:w-auto"
@@ -114,7 +112,6 @@ const ManBnner = () => {
             <Image
               src="/images/()manif.svg"
               alt="Capturing"
-              layout="responsive"
               width={100}
               height={100}
               className="w-full md:w-auto"
@@ -144,7 +141,6 @@ const ManBnner = () => {
             <Image
               src="/images/declineline.svg"
               alt="Capturing"
-              layout="responsive"
               width={100}
               height={100}
               className="w-full md:w-auto "

@@ -50,9 +50,9 @@ const AnimatedComponent: React.FC = () => {
         <Image
           src="/images/rojo-w/rojo-w9.webp"
           alt="Imagen central"
-          layout="fill"
-          objectFit="cover"
-          className="rounded-lg"
+          fill
+          sizes="320px"
+          className="rounded-lg object-cover"
         />
       </motion.div>
 

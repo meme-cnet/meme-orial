@@ -5,30 +5,16 @@ import { motion, useAnimation } from 'framer-motion'
 import Image from 'next/image'
 import { datarojoweb } from '../../data/datarojoweb'
 import { datanegroweb } from '../../data/datanegroweb'
+import { buildCombinedCarouselImages, type CarouselImageData } from '@/lib/buildCarouselImages'
 
-interface ImageData {
-  id: number
-  src: string
-  link: string
-  width: number
-  height: number
-}
-
-const shuffleArray = (array: ImageData[]): ImageData[] => {
-  const shuffled = [...array]
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
-  }
-  return shuffled
-}
+const carouselShellClass = 'hidden sm:block h-screen w-full overflow-hidden pointer-events-none'
 
 const ShimmerEffect: React.FC = () => (
   <div className="absolute inset-0 animate-shimmer bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:400%_100%]"/>
 )
 
 const CarouselImage = React.memo(({ image, containerWidth, isLoaded, onLoad, onError }: {
-  image: ImageData
+  image: CarouselImageData
   containerWidth: number
   isLoaded: boolean
   onLoad: () => void
@@ -38,7 +24,7 @@ const CarouselImage = React.memo(({ image, containerWidth, isLoaded, onLoad, onE
   const imageHeight = containerWidth / aspectRatio
 
   return (
-    <div 
+    <div
       className="flex-shrink-0 flex items-center justify-center mb-2"
       style={{ width: `${containerWidth}px`, height: `${imageHeight}px` }}
     >
@@ -65,31 +51,21 @@ const ImgCarruselAbjArr: React.FC = () => {
   const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set())
   const controls = useAnimation()
   const containerRef = useRef<HTMLDivElement>(null)
+  const [mounted, setMounted] = useState(false)
   const [containerWidth, setContainerWidth] = useState<number>(0)
-  const [combinedImages, setCombinedImages] = useState<ImageData[]>([])
+  const [combinedImages, setCombinedImages] = useState<CarouselImageData[]>([])
 
   useEffect(() => {
-    const shuffledRojo = shuffleArray(datarojoweb)
-    const shuffledNegro = shuffleArray(datanegroweb)
-    
-    const combined: ImageData[] = []
-    let rojoIndex = 0
-    let negroIndex = 0
-
-    while (combined.length < shuffledRojo.length * 4) {
-      combined.push(shuffledRojo[rojoIndex])
-      rojoIndex = (rojoIndex + 1) % shuffledRojo.length
-
-      for (let i = 0; i < 3; i++) {
-        combined.push(shuffledNegro[negroIndex])
-        negroIndex = (negroIndex + 1) % shuffledNegro.length
-      }
-    }
-
-    setCombinedImages(combined)
+    setMounted(true)
   }, [])
 
   useEffect(() => {
+    if (!mounted) return
+    setCombinedImages(buildCombinedCarouselImages(datarojoweb, datanegroweb))
+  }, [mounted])
+
+  useEffect(() => {
+    if (!mounted) return
     const updateContainerWidth = () => {
       if (containerRef.current) {
         setContainerWidth(containerRef.current.offsetWidth)
@@ -100,33 +76,37 @@ const ImgCarruselAbjArr: React.FC = () => {
     window.addEventListener('resize', updateContainerWidth)
 
     return () => window.removeEventListener('resize', updateContainerWidth)
-  }, [])
+  }, [mounted])
 
   const startAnimation = useCallback(() => {
-    if (combinedImages.length > 0 && containerRef.current && containerWidth > 0) {
-      const totalHeight = combinedImages.reduce((sum, img) => sum + (img.height * (containerWidth / img.width)), 0)
-      const gapHeight = (combinedImages.length - 1) * 0.5
+    if (!mounted || combinedImages.length === 0 || !containerRef.current || containerWidth <= 0) return
 
-      controls.start({
-        y: [-(totalHeight + gapHeight * 16), 0],
-        transition: {
-          y: {
-            repeat: Infinity,
-            repeatType: "loop",
-            duration: (totalHeight + gapHeight * 16) / 50,
-            ease: "linear",
-          },
+    const totalHeight = combinedImages.reduce((sum, img) => sum + (img.height * (containerWidth / img.width)), 0)
+    const gapHeight = (combinedImages.length - 1) * 0.5
+
+    controls.start({
+      y: [-(totalHeight + gapHeight * 16), 0],
+      transition: {
+        y: {
+          repeat: Infinity,
+          repeatType: 'loop',
+          duration: (totalHeight + gapHeight * 16) / 50,
+          ease: 'linear',
         },
-      })
-    }
-  }, [combinedImages, containerWidth, controls])
+      },
+    })
+  }, [combinedImages, containerWidth, controls, mounted])
 
   useEffect(() => {
     startAnimation()
   }, [startAnimation])
 
+  if (!mounted) {
+    return <div className={carouselShellClass} />
+  }
+
   return (
-    <div ref={containerRef} className="hidden sm:block h-screen w-full overflow-hidden pointer-events-none">
+    <div ref={containerRef} className={carouselShellClass}>
       <motion.div
         className="flex flex-col space-y-2"
         animate={controls}

@@ -50,9 +50,9 @@ const ResponsiveAnimatedComponent: React.FC = () => {
         <Image
           src="/images/rojo-w/LANDINGONHOLLYWOODSTUDIOS.webp"
           alt="Imagen central"
-          layout="fill"
-          objectFit="cover"
-          className="rounded-lg"
+          fill
+          sizes="300px"
+          className="rounded-lg object-cover"
         />
       </motion.div>
 

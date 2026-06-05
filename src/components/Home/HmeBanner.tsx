@@ -1,12 +1,14 @@
 import React from 'react'
+import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import Link from 'next/link'
-import CustomTimeline from './CustomTimeline'
-import BasicTimeline from './BasicTimeline'
 import ImgCarruselArrAbj from '../carrusel/ImgCarruselArrAbj'
 import ImgCarruselAbjArr from '../carrusel/ImgCarruselAbjArr'
 import ImgCarruselDerIzq from '../carrusel/ImgCarruselDerIzq'
 import ImgCarruselIzqDer from '../carrusel/ImgCarruselIzqDer'
+
+const CustomTimeline = dynamic(() => import('./CustomTimeline'), { ssr: false })
+const BasicTimeline = dynamic(() => import('./BasicTimeline'), { ssr: false })
 
 export default function HmeBnner() {
   return (

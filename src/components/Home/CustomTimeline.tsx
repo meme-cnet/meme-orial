@@ -11,6 +11,11 @@ import { motion, useInView } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
 
 export default function CustomTimeline() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const ref1 = useRef(null);
   const ref2 = useRef(null);
@@ -52,6 +57,10 @@ export default function CustomTimeline() {
   useEffect(() => {
     if (inView5 && !hasBeenViewed5) setHasBeenViewed5(true);
   }, [inView5, hasBeenViewed5]);
+
+  if (!mounted) {
+    return <div className="min-h-[320px]" />;
+  }
 
   return (
     <Timeline position="alternate">

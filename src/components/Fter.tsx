@@ -1,67 +1,31 @@
 "use client";
 
-import * as React from 'react';
-import { motion} from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import Image from 'next/image';
 
 export default function Footer() {
-
-
-
-
-  const [hasBeenViewed, setHasBeenViewed] = useState(false);
-
-
-  const [scrollDirection, setScrollDirection] = useState('down');
-
-
+  const [mounted, setMounted] = useState(false);
+  const [sticky, setSticky] = useState(false);
   const { ref, inView } = useInView({ triggerOnce: true });
 
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
-    if (inView && !hasBeenViewed) {
-      setHasBeenViewed(true);
+    if (inView) {
+      setSticky(true);
     }
-  }, [inView, hasBeenViewed]);
-
-
-  useEffect(() => {
-    let lastScrollY = window.scrollY;
-
-    const updateScrollDirection = () => {
-      const scrollY = window.scrollY;
-      const direction = scrollY > lastScrollY ? 'down' : 'up';
-      if (direction !== scrollDirection && Math.abs(scrollY - lastScrollY) > 10) {
-        setScrollDirection(direction);
-      }
-      lastScrollY = scrollY > 0 ? scrollY : 0;
-    };
-
-    window.addEventListener('scroll', updateScrollDirection);
-    return () => {
-      window.removeEventListener('scroll', updateScrollDirection);
-    };
-  }, [scrollDirection]);
+  }, [inView]);
 
   return (
-    <motion.footer
+    <footer
       ref={ref}
       className={`flex flex-col items-center justify-center py-4 z-50 bg-white text-black ${
-        hasBeenViewed ? 'sticky bottom-0' : ''
+        mounted && sticky ? 'sticky bottom-0' : ''
       }`}
-      initial={{ opacity: 0, y: 20 }}
-      animate={
-        hasBeenViewed
-          ? scrollDirection === 'down'
-            ? { opacity: 1, y: 0 }
-            : { opacity: 0, y: 20 }
-          : {}
-      }
-      transition={{ duration: 1 }}
     >
-      
       <div className="mb-4 z-50">
         <Image
           src="/images/LogoMemeorial.svg"
@@ -72,7 +36,6 @@ export default function Footer() {
         />
       </div>
 
-      
       <div className="z-10 flex space-x-4">
         <a
           href="https://www.instagram.com/memeorialart/"
@@ -128,6 +91,6 @@ export default function Footer() {
           Conecta.NET
         </a>
       </p>
-    </motion.footer>
+    </footer>
   );
 }

@@ -22,7 +22,6 @@ const Hder: React.FC = () => {
             width={500}
             height={40}
             className="w-full h-auto object-contain"
-            style={{ width: 'auto', height: 'auto' }}
           />
         </Link>
       </div>

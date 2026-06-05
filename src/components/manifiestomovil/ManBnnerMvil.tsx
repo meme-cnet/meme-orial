@@ -16,7 +16,6 @@ const ManBnnerMvil = () => {
           alt="Capturing"
           width={500}
           height={300}
-          layout="responsive"
         />
         <div className="mt-6 pl-[4%]">
           <span className="font-satoshi-bold text-[1.125rem]">(MEME)ORIAL</span> Gallery.
@@ -93,7 +92,6 @@ const ManBnnerMvil = () => {
                     alt="Decline"
                     width={300}
                     height={200}
-                    layout="responsive"
                   />
                   <p className="font-satoshi-regular text-[1.125rem] text-justify mt-4">
                     The decline of traditional <span className='font-satoshi-bold'> mainstream media </span> and the rise of social media is largely driven by the popularity of short, viral content formats, particularly memes.
@@ -106,7 +104,6 @@ const ManBnnerMvil = () => {
                     alt="Decline Line"
                     width={300}
                     height={200}
-                    layout="responsive"
                     className="my-4"
                   />
                   <p className="font-satoshi-regular text-[1.125rem] text-justify">
@@ -117,7 +114,6 @@ const ManBnnerMvil = () => {
                     alt="Manif"
                     width={300}
                     height={200}
-                    layout="responsive"
                     className="my-4"
                   />
                   <p className="font-satoshi-regular text-[1.125rem] text-justify">
