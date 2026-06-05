@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Satoshi-Regular';
+  src: url('../app/fonts/Satoshi-Regular.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Satoshi-Bold';
+  src: url('../app/fonts/Satoshi-Bold.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Satoshi-Light';
+  src: url('../app/fonts/Satoshi-Light.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Satoshi-Medium';
+  src: url('../app/fonts/Satoshi-Medium.otf') format('opentype');
+}
+
+body {
+  @apply font-satoshi-regular;
+}
+
+@layer utilities {
+  .font-satoshi-regular {
+    font-family: 'Satoshi-Regular', sans-serif;
+  }
+  .font-satoshi-bold {
+    font-family: 'Satoshi-Bold', sans-serif;
+  }
+  .font-satoshi-light {
+    font-family: 'Satoshi-Light', sans-serif;
+  }
+  .font-satoshi-medium {
+    font-family: 'Satoshi-Medium', sans-serif;
+  }
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateY(-50%);
+  }
+  100% {
+    transform: translateY(0%);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 20s linear infinite;
+}
+
+p {
+  line-height: 1.2;
+}
